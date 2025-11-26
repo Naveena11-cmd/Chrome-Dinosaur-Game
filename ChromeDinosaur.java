@@ -70,7 +70,6 @@ public class ChromeDinosaur extends JPanel implements ActionListener, KeyListene
         setFocusable(true);
         addKeyListener(this);
 
-        // Load images
         dinoImg = new ImageIcon(getClass().getResource("/img/dino-run.gif")).getImage();
         cactus1Img = new ImageIcon(getClass().getResource("/img/cactus1.png")).getImage();
         cactus2Img = new ImageIcon(getClass().getResource("/img/cactus2.png")).getImage();
@@ -83,7 +82,6 @@ public class ChromeDinosaur extends JPanel implements ActionListener, KeyListene
 
         dino = new Block(dinoX, dinoY, dinoWidth, dinoHeight, dinoImg);
 
-        // Game loop
         gameLoopTimer = new Timer(1000/60, this);
         gameLoopTimer.start();
 
@@ -116,12 +114,12 @@ public class ChromeDinosaur extends JPanel implements ActionListener, KeyListene
 
     void placeBird() {
         if (gameOver) return;
-        int birdY = dinoY - 40; // near the dino height
-        Image birdImg = (Math.random() > 0.5) ? bird1Img : bird2Img;
+        int birdY = dinoY - 120;
+        Image birdImg = (Math.random() > 0.7) ? bird1Img : bird2Img;
         birds.add(new Block(700, birdY, birdWidth, birdHeight, birdImg));
     }
 
-    // SOUND PLAYER
+    // sound player
     public void playSound(String path) {
         try {
             AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResource(path));
@@ -165,12 +163,25 @@ public class ChromeDinosaur extends JPanel implements ActionListener, KeyListene
             g.drawString("Score: " + score, 10, 35);
     }
 
-    boolean isColliding(Block a, Block b) {
-        return (a.x < b.x + b.width &&
-                a.x + a.width > b.x &&
-                a.y < b.y + b.height &&
-                a.y + a.height > b.y);
+     boolean isColliding(Block a, Block b) 
+    {
+
+        int ax = a.x + 10;
+        int ay = a.y + 10;
+        int aw = a.width - 20;
+        int ah = a.height - 20;
+    
+        int bx = b.x + 5;
+        int by = b.y + 5;
+        int bw = b.width - 10;
+        int bh = b.height - 10;
+    
+        return (ax < bx + bw &&
+                ax + aw > bx &&
+                ay < by + bh &&
+                ay + ah > by);
     }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
